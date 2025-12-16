@@ -4,130 +4,249 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Birthday</title>
-</head>
-<body  class="background">
     <style>
-        body{ margin: 0; }
-        .background{
-            background : linear-gradient(to right,magenta,pink);
+        body { margin: 0; }
+        .background {
+            background: linear-gradient(to right, magenta, pink);
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            position: relative; /* stacking context for balloons */
+            position: relative;
             padding: 2rem 1rem;
         }
-        .background-1{
-            background: linear-gradient(to right,rgb(11, 100, 242),cyan);
+        .background-1 {
+            background: linear-gradient(to right, rgb(11, 100, 242), cyan);
             display: flex;
             margin-top: 6rem;
             border-radius: 12px;
-            padding: clamp(12px,2.5vw,28px);
+            padding: clamp(12px, 2.5vw, 28px);
             width: min(1100px, 95%);
             box-sizing: border-box;
             justify-content: center;
             align-items: center;
-            z-index: 1; /* sit above balloons */
+            z-index: 1;
         }
+
         /* Balloon effect */
-        .balloon-wrap{ position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
-        .balloon{
+        .balloon-wrap { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+        .balloon {
             position: absolute;
             bottom: -20vh;
-            width: clamp(40px,6vw,80px);
-            height: clamp(56px,8vw,100px);
+            width: clamp(40px, 6vw, 80px);
+            height: clamp(56px, 8vw, 100px);
             border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
             opacity: 0.95;
             transform-origin: center bottom;
             animation: floatUp linear infinite;
         }
-        .balloon::after{
+        .balloon::after {
             content: '';
             position: absolute;
             left: 50%;
             bottom: -12px;
             width: 2px;
             height: 40px;
-            background: rgba(0,0,0,0.15);
+            background: rgba(0, 0, 0, 0.15);
             transform: translateX(-50%);
         }
-        @keyframes floatUp{
-            0%{ transform: translateY(0) rotate(0deg); opacity: 0; }
-            10%{ opacity: 1; }
-            50%{ transform: translateY(-55vh) rotate(6deg); }
-            100%{ transform: translateY(-110vh) rotate(-6deg); opacity: 0.8; }
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            50% { transform: translateY(-55vh) rotate(6deg); }
+            100% { transform: translateY(-110vh) rotate(-6deg); opacity: 0.8; }
         }
-        /* different sizes/positions/speeds */
-        .b1{ left: 8%; background: #ff6b6b; animation-duration: 8s; }
-        .b2{ left: 22%; background: #ffd93d; width: clamp(36px,5.5vw,64px); height: clamp(48px,7vw,88px); animation-duration: 10s; }
-        .b3{ left: 40%; background: #6bcB77; animation-duration: 9s; }
-        .b4{ left: 60%; background: #4d96ff; width: clamp(48px,7vw,90px); height: clamp(64px,9vw,110px); animation-duration: 11s; }
-        .b5{ left: 78%; background: #c77dff; animation-duration: 12s; }
+        .b1 { left: 8%; background: #ff6b6b; animation-duration: 8s; }
+        .b2 { left: 22%; background: #ffd93d; width: clamp(36px, 5.5vw, 64px); height: clamp(48px, 7vw, 88px); animation-duration: 10s; }
+        .b3 { left: 40%; background: #6bcB77; animation-duration: 9s; }
+        .b4 { left: 60%; background: #4d96ff; width: clamp(48px, 7vw, 90px); height: clamp(64px, 9vw, 110px); animation-duration: 11s; }
+        .b5 { left: 78%; background: #c77dff; animation-duration: 12s; }
 
-        /* photos floating upward (responsive) */
-        .photo-wrap{ position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
-        .photo{ position: absolute; bottom: -20vh; width: clamp(80px,18vw,220px); height: auto; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.22); transform-origin: center bottom; will-change: transform; animation: photoUp linear infinite; pointer-events: none; transition: opacity 0.25s ease; }
-        /* center each photo on its left coordinate using translateX(-50%) */
-        .photo{ transform: translateX(-50%); }
-        @keyframes photoUp{
-            0%{ transform: translateX(-50%) translateY(0) rotate(0deg); opacity: 0; }
-            10%{ transform: translateX(-50%) translateY(0) rotate(0deg); opacity: 1; }
-            50%{ transform: translateX(-50%) translateY(-55vh) rotate(4deg); }
-            100%{ transform: translateX(-50%) translateY(-110vh) rotate(-4deg); opacity: 0.95; }
+        /* Photos floating upward */
+        .photo-wrap { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+        .photo {
+            position: absolute;
+            bottom: -20vh;
+            width: clamp(80px, 18vw, 220px);
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+            transform-origin: center bottom;
+            will-change: transform;
+            animation: photoUp linear infinite;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            transform: translateX(-50%);
         }
-        /* evenly space 10 photos */
-        .p1{ left: 8%; animation-duration: 9s; }
-        .p2{ left: 20%; animation-duration: 10s; }
-        .p3{ left: 32%; animation-duration: 11s; }
-        .p4{ left: 44%; animation-duration: 10.5s; }
-        .p5{ left: 56%; animation-duration: 12s; }
-        .p6{ left: 68%; animation-duration: 11s; }
-        .p7{ left: 80%; animation-duration: 12s; }
+        @keyframes photoUp {
+            0% { transform: translateX(-50%) translateY(0) rotate(0deg); opacity: 0; }
+            10% { transform: translateX(-50%) translateY(0) rotate(0deg); opacity: 1; }
+            50% { transform: translateX(-50%) translateY(-55vh) rotate(4deg); }
+            100% { transform: translateX(-50%) translateY(-110vh) rotate(-4deg); opacity: 0.95; }
+        }
+        .p1 { left: 8%; animation-duration: 9s; }
+        .p2 { left: 20%; animation-duration: 10s; }
+        .p3 { left: 32%; animation-duration: 11s; }
+        .p4 { left: 44%; animation-duration: 10.5s; }
+        .p5 { left: 56%; animation-duration: 12s; }
+        .p6 { left: 68%; animation-duration: 11s; }
+        .p7 { left: 80%; animation-duration: 12s; }
 
-        @media (max-width: 1000px){
-            .photo{ width: clamp(72px,12vw,160px); }
-            .p1{ left: 8%; }
-            .p2{ left: 20%; }
-            .p3{ left: 32%; }
-            .p4{ left: 44%; }
-            .p5{ left: 56%; }
-            .p6{ left: 68%; }
-            .p7{ left: 80%; }
+        .background-1 { display: flex; gap: 1.25rem; }
+        .content { flex: 1 1 60%; }
+        .content h2 { font-size: clamp(1.25rem, 3.6vw, 2rem); margin: 0 0 0.5rem 0; }
+        .content .message { font-size: clamp(0.95rem, 2.2vw, 1.1rem); margin: 0 0 0.75rem 0; line-height: 1.4; }
+        .content .note { white-space: pre-wrap; margin: 0; font-family: inherit; background: transparent; }
+        .controls { display: flex; flex-direction: column; gap: 0.5rem; align-items: center; justify-content: center; }
+        .buttons { display: flex; gap: 0.5rem; }
+        .btn-play, .btn-pause { padding: 8px 12px; border-radius: 6px; border: none; cursor: pointer; }
+        .btn-play { background: #ff6b6b; color: #fff; }
+        .btn-pause { background: #ccc; color: #000; }
+
+        @media (max-width: 800px) {
+            .background-1 { margin-top: 4rem; flex-direction: column; align-items: center; text-align: center; }
+            .content { width: 100%; }
+            .controls { flex-direction: row; }
         }
-        @media (max-width: 600px){
-            /* larger photos on small screens, hide last two to reduce clutter */
-            .photo{ width: clamp(64px,24vw,180px); }
-            .p6, .p7{ display: none; }
+        @media (max-width: 480px) {
+            .background-1 { margin-top: 3rem; padding: 12px; }
+            .balloon { width: clamp(28px, 8vw, 48px); height: clamp(36px, 10vw, 64px); }
+            .b4, .b5 { display: none; }
+            .buttons { flex-direction: column; }
+            .buttons button { width: 100%; }
+            .content h2 { font-size: 1.25rem; }
+            .photo { width: clamp(48px, 20vw, 120px); }
         }
 
-        /* responsive tweaks */
-        .background-1{ display: flex; gap: 1.25rem; }
-        .content{ flex: 1 1 60%; }
-        .content h2{ font-size: clamp(1.25rem, 3.6vw, 2rem); margin: 0 0 0.5rem 0; }
-        .content .message{ font-size: clamp(0.95rem, 2.2vw, 1.1rem); margin: 0 0 0.75rem 0; line-height: 1.4; }
-        .content .note{ white-space: pre-wrap; margin: 0; font-family: inherit; background: transparent; }
-        .controls{ display:flex; flex-direction: column; gap: 0.5rem; align-items: center; justify-content: center; }
-        .buttons{ display:flex; gap:0.5rem; }
-        .btn-play, .btn-pause{ padding:8px 12px; border-radius:6px; border:none; cursor:pointer; }
-        .btn-play{ background:#ff6b6b; color:#fff; }
-        .btn-pause{ background:#ccc; color:#000; }
-
-        @media (max-width: 800px){
-            .background-1{ margin-top: 4rem; flex-direction: column; align-items: center; text-align: center; }
-            .content{ width: 100%; }
-            .controls{ flex-direction: row; }
+        /* Question overlay styles */
+        .question-overlay {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            z-index: 9999;
+            transition: opacity 300ms ease, visibility 300ms ease;
         }
-        @media (max-width: 480px){
-            .background-1{ margin-top: 3rem; padding: 12px; }
-            .balloon{ width: clamp(28px,8vw,48px); height: clamp(36px,10vw,64px); }
-            .b4, .b5{ display: none; }
-            .buttons{ flex-direction: column; }
-            .buttons button{ width: 100%; }
-            .content h2{ font-size: 1.25rem; }
-            /* increase photo size on very small screens while keeping layout usable */
-            .photo{ width: clamp(48px,20vw,120px); }
+        .question-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .question-card {
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            width: min(520px, 94%);
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 18px 60px rgba(0, 0, 0, 0.6);
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .question-card h2 {
+            font-size: clamp(1.1rem, 3.4vw, 1.6rem);
+            margin: 0 0 12px 0;
+            letter-spacing: 0.4px;
+        }
+        .question-card p {
+            margin: 0 0 12px 0;
+            opacity: 0.92;
+        }
+        .question-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        #answerInput {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #fff;
+            padding: 10px 12px;
+            border-radius: 10px;
+            flex: 1;
+            font-size: 1rem;
+        }
+        #answerInput::placeholder {
+            color: rgba(255, 255, 255, 0.55);
+        }
+        .question-btn {
+            background: linear-gradient(180deg, #7fb1ff, #0b66ff);
+            border: none;
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(8, 44, 102, 0.28);
+        }
+        .question-hint {
+            background: transparent;
+            color: #9fc7ff;
+            border: 1px dashed rgba(159, 199, 255, 0.12);
+            padding: 8px 10px;
+            border-radius: 9px;
+            cursor: pointer;
+        }
+        .question-message {
+            color: rgba(255, 255, 255, 0.85);
+            min-height: 18px;
+            margin-top: 10px;
+        }
+        .success { color: #b7ffd6; }
+        .error { color: #ffd6d6; }
+
+        @media (max-width: 520px) {
+            .question-row { flex-direction: column; align-items: stretch; }
+            .question-btn { width: 100%; }
+            .question-card { padding: 16px; }
+        }
+
+        /* Blur main content when overlay active */
+        body.overlay-active .background-1,
+        body.overlay-active .balloon-wrap,
+        body.overlay-active .photo-wrap {
+            filter: blur(6px) saturate(0.95);
+            transition: filter 240ms ease;
+            pointer-events: none;
+        }
+        @media (max-width: 480px) {
+            body.overlay-active .background-1,
+            body.overlay-active .balloon-wrap,
+            body.overlay-active .photo-wrap {
+                filter: blur(3px) saturate(0.95);
+            }
+        }
+        @media (min-width: 1200px) {
+            body.overlay-active .background-1,
+            body.overlay-active .balloon-wrap,
+            body.overlay-active .photo-wrap {
+                filter: blur(8px) saturate(0.95);
+            }
         }
     </style>
+</head>
+<body class="background">
+    <!-- Question Overlay -->
+    <div id="questionOverlay" class="question-overlay">
+        <div class="question-card">
+            <h2>Mera naam kya hai?</h2>
+            <p>Enter the correct name to unlock.</p>
+            <div class="question-row">
+                <input id="answerInput" type="text" placeholder="Type answer" />
+                <button id="unlockBtn" class="question-btn">Unlock</button>
+            </div>
+            <div style="display:flex; gap:8px; justify-content:center; margin-top:8px;">
+                <button id="hintBtn" class="question-hint">Hint</button>
+                <button id="resetBtn" class="question-hint">Reset</button>
+            </div>
+            <div id="questionMessage" class="question-message"></div>
+        </div>
+    </div>
+
+    <!-- Balloons -->
     <div class="balloon-wrap" aria-hidden="true">
         <div class="balloon b1"></div>
         <div class="balloon b2"></div>
@@ -135,75 +254,95 @@
         <div class="balloon b4"></div>
         <div class="balloon b5"></div>
     </div>
-    <!-- upward-floating photos -->
+
+    <!-- Floating Photos -->
     <div class="photo-wrap" aria-hidden="true">
-        <img class="photo p1" src="IMG_20251215_164224.jpg" alt="hi" />
+        <img class="photo p1" src="IMG_20251215_164224.jpg" alt="" />
         <img class="photo p2" src="IMG_20251215_164240.jpg" alt="" />
         <img class="photo p3" src="IMG_20251215_164303.jpg" alt="" />
         <img class="photo p4" src="IMG_20251215_164321.jpg" alt="" />
-        <img class="photo p5" src="photo3.jpg" alt="" />
+        <img class="photo p5" src="photo2.jpg" alt="" />
         <img class="photo p6" src="IMG_20251215_164355.jpg" alt="" />
-        <!-- removed p7, p9, p10 as requested; keep seven photos total -->
         <img class="photo p7" src="photo1.jpg" alt="" />
     </div>
+
+    <!-- Birthday Content -->
     <div class="background-1">
         <div class="content">
             <h2>Happy Birthday Chakuliii!!🎂🍰🥳</h2>
-            <p class="message">aur chakulli many many Happy returns of the day<br>(music bhi rakha hai use bhi play kar)<brjanta hu kuch ajib sa ye link ya qr code diya maine tujhe 😅😅<br><br ye mere style wish karne ka isliye thoda hatke hai 😎 || <br>Jald TUjhe bhi koi acha mil jayee☺️☺️ "</p>
+            <p class="message">aur chakulli many many Happy returns of the day<br>(music bhi rakha hai use bhi play kar)<br>janta hu kuch ajib sa ye link ya qr code diya maine tujhe 😅😅<br><br>ye mere style wish karne ka isliye thoda hatke hai 😎 || <br>"Jald TUjhe bhi koi acha mil jayee☺️☺️ rahna"</p>
             <pre class="note">          ```tera dost chakulaaa?</pre>
         </div>
-        <!-- Birthday song controls -->
         <div class="controls">
             <div class="buttons">
-                <button id="playSong" class="btn-play">Play  Song</button>
+                <button id="playSong" class="btn-play">Play Song</button>
                 <button id="pauseSong" class="btn-pause">Pause</button>
             </div>
-            <!-- audio element: place a file named 'happy-birthday.mp3' in this folder or update src to your file URL -->
             <audio id="hbSong" src="cheri_cheri_lady_ringtone_oyi9rwxxnq4_ad193970.m4a" preload="auto" loop></audio>
         </div>
-        <script>
-            (function(){
-                const audio = document.getElementById('hbSong');
-                const playBtn = document.getElementById('playSong');
-                const pauseBtn = document.getElementById('pauseSong');
-                playBtn.addEventListener('click', async ()=>{
-                    try{ await audio.play(); }catch(e){ console.warn('Playback failed:', e); }
-                });
-                pauseBtn.addEventListener('click', ()=>{ audio.pause(); });
-                audio.addEventListener('ended', ()=>{ audio.currentTime = 0; });
-            })();
-        </script>
     </div>
+
     <script>
-        // Randomize photo positions, durations and delays so they appear from random spots
-        (function(){
+        // Audio controls
+        (function() {
+            const audio = document.getElementById('hbSong');
+            const playBtn = document.getElementById('playSong');
+            const pauseBtn = document.getElementById('pauseSong');
+            playBtn.addEventListener('click', async () => {
+                try { await audio.play(); } catch (e) { console.warn('Playback failed:', e); }
+            });
+            pauseBtn.addEventListener('click', () => { audio.pause(); });
+            audio.addEventListener('ended', () => { audio.currentTime = 0; });
+        })();
+
+        // Randomize photo positions
+        (function() {
             const photos = document.querySelectorAll('.photo');
-            if(!photos.length) return;
-            photos.forEach((p, i)=>{
-                // random left between 5% and 95%
-                const left = 5 + Math.random()*90;
+            if (!photos.length) return;
+            photos.forEach((p) => {
+                const left = 5 + Math.random() * 90;
                 p.style.left = left + '%';
-
-                // random duration between 8 and 18s
-                const dur = (8 + Math.random()*10).toFixed(2) + 's';
+                const dur = (8 + Math.random() * 10).toFixed(2) + 's';
                 p.style.animationDuration = dur;
-
-                // random delay between 0 and 6s
-                const delay = (Math.random()*6).toFixed(2) + 's';
+                const delay = (Math.random() * 6).toFixed(2) + 's';
                 p.style.animationDelay = delay;
-
-                // small random horizontal offset wobble via CSS variable (used by transform in keyframes)
-                const wobble = (Math.random()*18 - 9).toFixed(2) + 'px';
-                p.style.setProperty('--wobble-x', wobble);
             });
         })();
+
+        // Question unlock logic
+        (function() {
+            const overlay = document.getElementById('questionOverlay');
+            const input = document.getElementById('answerInput');
+            const btn = document.getElementById('unlockBtn');
+            const hintBtn = document.getElementById('hintBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const msg = document.getElementById('questionMessage');
+
+            function hideOverlay() {
+                overlay.classList.add('hidden');
+                document.body.classList.remove('overlay-active');
+            }
+
+            function tryUnlock() {
+                const answer = input.value.trim().toLowerCase();
+                if (answer === 'yamini') {
+                    msg.innerHTML = '<span class="success">Unlocked ✓</span>';
+                    setTimeout(hideOverlay, 300);
+                } else {
+                    msg.innerHTML = '<span class="error">Incorrect — try again</span>';
+                }
+            }
+
+            btn.addEventListener('click', tryUnlock);
+            input.addEventListener('keydown', (e) => { if (e.key === 'Enter') tryUnlock(); });
+            hintBtn.addEventListener('click', () => { msg.textContent = 'Starts with "ya"'; });
+            resetBtn.addEventListener('click', () => { input.value = ''; msg.textContent = ''; input.focus(); });
+
+            // Show overlay and add overlay-active class
+            document.body.classList.add('overlay-active');
+            input.focus();
+        })();
     </script>
-    
+
 </body>
-
 </html>
-
-
-
-
-
